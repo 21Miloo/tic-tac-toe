@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Square } from "./Square";
 
 export function WinnerModal({ winner, resetGame }) {
@@ -10,7 +11,11 @@ export function WinnerModal({ winner, resetGame }) {
       <div className="text">
         <h2>{winnerText}</h2>
 
-        <header className="win">{winner && <Square>{winner}</Square>}</header>
+        {winner && (
+          <header className="win">
+            <Square>{winner}</Square>
+          </header>
+        )}
 
         <footer>
           <button onClick={resetGame}> Start Again </button>
@@ -19,3 +24,9 @@ export function WinnerModal({ winner, resetGame }) {
     </section>
   );
 }
+
+WinnerModal.propTypes = {
+  // null: partida en curso, false: empate, string: ficha ganadora
+  winner: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  resetGame: PropTypes.func.isRequired,
+};

@@ -17,7 +17,13 @@ function App() {
     const turnFromStorage = window.localStorage.getItem("turn");
     return turnFromStorage ?? TURN.X;
   });
-  const [winner, setWinner] = useState(null);
+  // Recalculamos el ganador desde el tablero guardado, para que al recargar
+  // una partida terminada no se pueda seguir jugando
+  const [winner, setWinner] = useState(() => {
+    const savedWinner = checkWinnerFrom(board);
+    if (savedWinner) return savedWinner;
+    return checkEndGame(board) ? false : null;
+  });
 
   const resetGame = () => {
     setBoard(Array(9).fill(null));
